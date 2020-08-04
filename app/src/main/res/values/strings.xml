@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Glucose Guardian</string>
+    <string name="health_timer">health_timer</string>
+    <string name="view_logbook_button">Logbook</string>
+    <string name="pet_title">pet_title</string>
+    <string name="pet_name">pet_name</string>
+    <string name="feed">feed</string>
+    <string name="pet_dscrpt">pet_dscrpt</string>
+</resources>
