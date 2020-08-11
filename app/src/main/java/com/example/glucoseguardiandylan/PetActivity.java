@@ -54,7 +54,7 @@ public class PetActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == ADD_FEEDING_REQUEST && resultCode == RESULT_OK){
+        if (requestCode == ADD_FEEDING_REQUEST && resultCode == RESULT_OK) {
 
             double bloodSugar = Objects.requireNonNull(data).getDoubleExtra(AddEditFeedingActivity.EXTRA_BLOOD_SUGAR, 0);
             String description = data.getStringExtra(AddEditFeedingActivity.EXTRA_DESCRIPTION);
@@ -65,44 +65,45 @@ public class PetActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Feeding saved", Toast.LENGTH_SHORT).show();
 
-            calculateHealth(bloodSugar);
+            //feedingViewModel.calculateHealth(bloodSugar);
 
         } else {
             Toast.makeText(this, "Feeding not saved", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void calculateHealth(double bloodSugar){
-        LiveData<List<Pet>> petsLiveData = petViewModel.getAllPets();
-        List<Pet> pets = new ArrayList<>();
-        pets =  petsLiveData.getValue();
-        Pet userPet = null;
-        if (pets != null) {
-            userPet = pets.get(0);
-        } else{
-            petViewModel.insert(new Pet("Vampy 2", 50, 50));
-            petsLiveData = petViewModel.getAllPets();
-            pets =  petsLiveData.getValue();
-            userPet = pets.get(0);
-        }
-        int petHealth = userPet.getHealth();
-        if(bloodSugar <= 10 || bloodSugar >= 4) {
-            if (petHealth >= 90) {
-                petHealth = 100;
-            } else {
-                petHealth = +10;
-            }
-        } else if(bloodSugar > 10 || bloodSugar < 4){
-            petHealth =- 10;
-            if (petHealth <= 0){
-                Toast.makeText(this, "You pet has no health, GAME OVER", Toast.LENGTH_SHORT).show();
-                petHealth = 25;
-                Toast.makeText(this, "Pet revived, health 25", Toast.LENGTH_LONG).show();
-            }
-            else{
-                Toast.makeText(this, "Blood sugar out of range, Pet has taken damage", Toast.LENGTH_LONG).show();
-            }
-        }
-        petViewModel.update(userPet);
-    }
+
+//    public void calculateHealth(double bloodSugar){
+//        LiveData<List<Pet>> petsLiveData = petViewModel.getAllPets();
+//        List<Pet> pets = new ArrayList<>();
+//        pets =  petsLiveData.getValue();
+//        Pet userPet = null;
+//        if (pets != null) {
+//            userPet = pets.get(0);
+//        } else{
+//            petViewModel.insert(new Pet("Vampy 2", 50, 50));
+//            petsLiveData = petViewModel.getAllPets();
+//            pets =  petsLiveData.getValue();
+//            userPet = pets.get(0);
+//        }
+//        int petHealth = userPet.getHealth();
+//        if(bloodSugar <= 10 || bloodSugar >= 4) {
+//            if (petHealth >= 90) {
+//                petHealth = 100;
+//            } else {
+//                petHealth =+ 10;
+//            }
+//        } else if(bloodSugar > 10 || bloodSugar < 4){
+//            petHealth =- 10;
+//            if (petHealth <= 0){
+//                Toast.makeText(this, "You pet has no health, GAME OVER", Toast.LENGTH_SHORT).show();
+//                petHealth = 25;
+//                Toast.makeText(this, "Pet revived, health 25", Toast.LENGTH_LONG).show();
+//            }
+//            else{
+//                Toast.makeText(this, "Blood sugar out of range, Pet has taken damage", Toast.LENGTH_LONG).show();
+//            }
+//        }
+//        petViewModel.update(userPet);
+//    }
 }
