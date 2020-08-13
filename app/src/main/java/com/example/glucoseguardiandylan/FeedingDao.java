@@ -25,4 +25,7 @@ public interface FeedingDao {
 
     @Query("SELECT * FROM feeding_table ORDER BY date DESC")
     LiveData<List<Feeding>> getAllFeedings();
+
+    @Query("SELECT * FROM feeding_table ORDER BY date DESC LIMIT 1")
+    Feeding getLatestFeeding();
 }

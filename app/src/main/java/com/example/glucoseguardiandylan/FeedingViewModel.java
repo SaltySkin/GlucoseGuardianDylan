@@ -34,6 +34,10 @@ public class FeedingViewModel extends AndroidViewModel {
         repository.deleteAllFeedings();
     }
 
+    public Feeding getLatestFeeding(){
+        return repository.getLatestFeeding();
+    }
+
     public LiveData<List<Feeding>> getAllFeedings(){
         return allFeedings;
     }

@@ -38,6 +38,10 @@ public class FeedingRepository {
         return allFeedings;
     }
 
+    public Feeding getLatestFeeding(){
+        return feedingDao.getLatestFeeding();
+    }
+
     private static class InsertExecutor implements Runnable{
 
         private FeedingDao feedingDao;

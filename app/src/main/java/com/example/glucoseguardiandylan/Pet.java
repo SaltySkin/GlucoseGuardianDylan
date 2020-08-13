@@ -7,23 +7,25 @@ import java.util.Calendar;
 
 @Entity(tableName = "pet_table")
 public class Pet {
-    @PrimaryKey(autoGenerate = true)
-    private int id;
+
+    @PrimaryKey()
+    private Long id;
     private String name;
     private int health;
     private int hunger;
 
-    public Pet(String name, int health, int hunger) {
+    public Pet(Long id, String name, int health, int hunger) {
+        this.id = id;
         this.name = name;
         this.health = health;
         this.hunger = hunger;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

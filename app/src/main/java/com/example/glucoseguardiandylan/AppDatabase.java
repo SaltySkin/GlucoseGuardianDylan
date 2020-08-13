@@ -25,7 +25,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public static synchronized AppDatabase getInstance(Context context) { //synchronised allows only one thread at a time to access the method. To stop creating to instances of the database when two threads access the method  at once
         if (instance == null) { //builds new database only if there isn't one already, as to keep one instance of the database only
-            instance = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "app_database").fallbackToDestructiveMigration().addCallback(roomCallback).build(); //fallback destroys database upon migration to avoid error
+            instance = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "app_database").fallbackToDestructiveMigration().addCallback(roomCallback).allowMainThreadQueries().build(); //fallback destroys database upon migration to avoid error
         }
         return instance;
     }
@@ -56,7 +56,7 @@ public abstract class AppDatabase extends RoomDatabase {
             feedingDao.insert(new Feeding(5, "Pizza and Chips", 70));
             feedingDao.insert(new Feeding(10, "Sushi", 56));
             feedingDao.insert(new Feeding(5.2, "Smoked Salmon Bagel", 42));
-            petDao.insert(new Pet("Vampy", 100, 100));
+            petDao.insert(new Pet(1L,"Vampy", 90, 50));
         }
     }
 }

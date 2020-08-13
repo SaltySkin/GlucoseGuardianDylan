@@ -3,16 +3,25 @@ package com.example.glucoseguardiandylan;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.room.Database;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executor;
 
 public class PetActivity extends AppCompatActivity {
     private FeedingViewModel feedingViewModel;
@@ -25,7 +34,22 @@ public class PetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet);
+        ProgressBar healthBar = findViewById(R.id.health_bar);
+        ProgressBar hungerBar = findViewById(R.id.hunger_bar);
+
         setTitle("Pet View");
+
+        int ptHlth = AppDatabase.getInstance(getApplicationContext()).petDao().getPetOG(1).getHealth();
+        int petHunger = AppDatabase.getInstance(getApplicationContext()).petDao().getPetOG(1).getHunger();
+        healthBar.setProgress(ptHlth, true);
+        updateHungerBar();
+        hungerBar.setProgress(petHunger);
+
+
+        //String formattedDate = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(currentFeeding.getDate());
+
+
+        //feedingViewModel.getLatestDate();
 
         Button buttonAddFeeding = findViewById(R.id.button_add_feeding_pet);
         buttonAddFeeding.setOnClickListener(new View.OnClickListener() {
@@ -45,9 +69,24 @@ public class PetActivity extends AppCompatActivity {
             }
         });
 
+//        final Observer<Pet> nameObserver = new Observer<Pet>() {
+//            @Override
+//            public void onChanged(@Nullable final Pet updatedPet) {
+//                // Update the UI, in this case, a Pet.
+//                petViewModel.update(updatedPet);
+//            }
+//        };
         feedingViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(FeedingViewModel.class);
         petViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(PetViewModel.class);
 
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        updateHungerBar();
+        Toast.makeText(this, "Hunger bar updated", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -65,13 +104,37 @@ public class PetActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Feeding saved", Toast.LENGTH_SHORT).show();
 
-            //feedingViewModel.calculateHealth(bloodSugar);
+            int petHealth = petViewModel.calculateHealth(bloodSugar);
+            updateHealthBar(petHealth);
 
         } else {
             Toast.makeText(this, "Feeding not saved", Toast.LENGTH_SHORT).show();
         }
     }
 
+    public void updateHealthBar(int health) {
+        ProgressBar healthBar = findViewById(R.id.health_bar);
+        healthBar.setProgress(health, true);
+    }
+
+    public void updateHungerBar() {
+        ProgressBar hungerBar = findViewById(R.id.hunger_bar);
+        int petHunger = AppDatabase.getInstance(getApplicationContext()).petDao().getPetOG(1).getHunger();
+
+        Long latestFeedingMilsec = AppDatabase.getInstance(getApplicationContext()).feedingDao().getLatestFeeding().getDate();
+        Long currentDateMilsec = System.currentTimeMillis();
+        Long differenceDateMil = currentDateMilsec - latestFeedingMilsec;
+        Long differenceDateMin = differenceDateMil/60000L;
+
+
+        while (differenceDateMin > 1){
+            petHunger = petHunger - 10;
+            differenceDateMin =- 1L;
+        }
+        AppDatabase.getInstance(getApplicationContext()).petDao().getPetOG(1).setHunger(petHunger);
+        hungerBar.setProgress(petHunger, true);
+
+    }
 
 //    public void calculateHealth(double bloodSugar){
 //        LiveData<List<Pet>> petsLiveData = petViewModel.getAllPets();

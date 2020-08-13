@@ -29,4 +29,8 @@ public interface PetDao {
 
     @Query("SELECT * FROM pet_table WHERE id = :id")
     LiveData<Pet> getPet(int id);
+
+    @Query("SELECT * FROM pet_table WHERE id = :id")
+    Pet getPetOG(int id);
+
 }

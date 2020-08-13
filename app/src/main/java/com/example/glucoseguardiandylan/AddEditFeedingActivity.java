@@ -1,6 +1,7 @@
 package com.example.glucoseguardiandylan;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +30,7 @@ public class AddEditFeedingActivity extends AppCompatActivity {
         editTextDescription = findViewById(R.id.edit_text_description);
         numberPickerCarbs = findViewById(R.id.number_picker_carbs);
         numberPickerCarbs.setMinValue(0);
-        numberPickerCarbs.setMaxValue(500);
+        numberPickerCarbs.setMaxValue(250);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_close_24);
 
 
