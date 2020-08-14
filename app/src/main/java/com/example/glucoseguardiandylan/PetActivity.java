@@ -36,15 +36,11 @@ public class PetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet);
         ProgressBar healthBar = findViewById(R.id.health_bar);
-        ProgressBar hungerBar = findViewById(R.id.hunger_bar);
         feedingViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(FeedingViewModel.class);
         petViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(PetViewModel.class);
-
         setTitle("Pet View");
 
-        ptHlth = petViewModel.getPetOG().getHealth();
-        int petHunger = petViewModel.getPetOG().getHunger();
-        healthBar.setProgress(ptHlth, true);
+
         //updateHungerBar();
         //hungerBar.setProgress(petHunger);
 
@@ -126,9 +122,7 @@ public class PetActivity extends AppCompatActivity {
 
     public void updateHungerBar() {
         ProgressBar hungerBar = findViewById(R.id.hunger_bar);
-        Long lastFeeding = feedingViewModel.getLatestFeeding().getDate();
-        //AppDatabase.getInstance(getApplicationContext()).petDao().getPetOG(1).setHunger(petHunger);
-        int petHunger = petViewModel.calculateHunger(lastFeeding);
+        int petHunger = petViewModel.calculateHunger();
         hungerBar.setProgress(petHunger, true);
 
     }

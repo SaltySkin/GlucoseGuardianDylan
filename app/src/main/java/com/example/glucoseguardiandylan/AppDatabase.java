@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -45,6 +46,10 @@ public abstract class AppDatabase extends RoomDatabase {
 
         private FeedingDao feedingDao;
         private PetDao petDao;
+        private Date date = new Date();
+        private Long currentDate = date.getTime();
+
+
 
         public PopulateDbExecutor(AppDatabase database) {
             feedingDao = database.feedingDao();
@@ -56,7 +61,8 @@ public abstract class AppDatabase extends RoomDatabase {
             feedingDao.insert(new Feeding(5, "Pizza and Chips", 70));
             feedingDao.insert(new Feeding(10, "Sushi", 56));
             feedingDao.insert(new Feeding(5.2, "Smoked Salmon Bagel", 42));
-            petDao.insert(new Pet(1,"Vampy", 90, 50));
+            petDao.insert(new Pet(1,"Vampy", 90, 50, currentDate));
+
         }
     }
 }

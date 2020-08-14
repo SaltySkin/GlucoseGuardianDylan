@@ -72,20 +72,22 @@ public class PetViewModel extends AndroidViewModel {
         return petHealth;
     }
 
-    public int calculateHunger(Long lastFeeding){
+    public int calculateHunger(){
         int petHunger = getPetOG().getHunger();
         Pet userPet = repository.getPetOG();
-
+        Long lastAppAccess = userPet.getLastAccessedApp();
         Long currentDateMilsec = System.currentTimeMillis();
-        Long differenceDateMil = currentDateMilsec - lastFeeding;
+
+        Long differenceDateMil = currentDateMilsec - lastAppAccess;
         Long differenceDateMin = differenceDateMil/60000L;
 
-        while (differenceDateMin > 30){
+        while (differenceDateMin >= 1){
             petHunger = petHunger - 10;
             differenceDateMin =- 1L;
         }
 
         userPet.setHunger(petHunger);
+        userPet.setLastAccessedApp(System.currentTimeMillis());
         update(userPet);
         return petHunger;
     }

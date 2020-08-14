@@ -1,6 +1,7 @@
 package com.example.glucoseguardiandylan;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.Calendar;
@@ -15,11 +16,20 @@ public class Pet {
     private int hunger;
     private Long lastAccessedApp;
 
+    @Ignore
     public Pet(int id, String name, int health, int hunger) {
         this.id = id;
         this.name = name;
         this.health = health;
         this.hunger = hunger;
+    }
+
+    public Pet(int id, String name, int health, int hunger, Long lastAccessedApp) {
+        this.id = id;
+        this.name = name;
+        this.health = health;
+        this.hunger = hunger;
+        this.lastAccessedApp = lastAccessedApp;
     }
 
     public int getId() {
