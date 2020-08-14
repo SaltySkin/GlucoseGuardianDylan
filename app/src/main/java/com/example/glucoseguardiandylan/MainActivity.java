@@ -41,14 +41,14 @@ public class MainActivity extends AppCompatActivity {
         final FeedingRecyclerAdapter adapter = new FeedingRecyclerAdapter();
         recyclerView.setAdapter(adapter);
 
-        FloatingActionButton buttonAddFeeding = findViewById(R.id.button_add_feeding);
-        buttonAddFeeding.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddEditFeedingActivity.class);
-                startActivityForResult(intent, 1);
-            }
-        });
+//        FloatingActionButton buttonAddFeeding = findViewById(R.id.button_add_feeding);
+//        buttonAddFeeding.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, AddEditFeedingActivity.class);
+//                startActivityForResult(intent, 1);
+//            }
+//        });
 
         Button buttonViewPet = findViewById(R.id.button_view_pet);
         buttonViewPet.setOnClickListener(new View.OnClickListener() {
@@ -97,39 +97,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == ADD_FEEDING_REQUEST && resultCode == RESULT_OK){
-            double bloodSugar = Objects.requireNonNull(data).getDoubleExtra(AddEditFeedingActivity.EXTRA_BLOOD_SUGAR, 0);
-            String description = data.getStringExtra(AddEditFeedingActivity.EXTRA_DESCRIPTION);
-            int carbs = data.getIntExtra(AddEditFeedingActivity.EXTRA_CARBS, 0);
-
-            Feeding feeding = new Feeding(bloodSugar, description, carbs);
-            feedingViewModel.insert(feeding);
-
-            Toast.makeText(this, "Feeding saved", Toast.LENGTH_SHORT).show();
-        } else if (requestCode == EDIT_FEEDING_REQUEST && resultCode == RESULT_OK){
-            //default value set to -1 so that if an item is invalid, it will caught as the id auto generator never sets to -1
-            int id = data.getIntExtra(AddEditFeedingActivity.EXTRA_ID, -1);
-
-            if(id == -1){ //Checks for invalid ID
-                Toast.makeText(this, "Feeding cant be updated", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            double bloodSugar = data.getDoubleExtra(AddEditFeedingActivity.EXTRA_BLOOD_SUGAR, 0);
-            String description = data.getStringExtra(AddEditFeedingActivity.EXTRA_DESCRIPTION);
-            int carbs = data.getIntExtra(AddEditFeedingActivity.EXTRA_CARBS, 1);
-            Feeding feeding = new Feeding(bloodSugar, description, carbs);
-            feeding.setId(id);
-            feedingViewModel.update(feeding);
-            Toast.makeText(this, "Feeding Edited", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Feeding not saved", Toast.LENGTH_SHORT).show();
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if(requestCode == ADD_FEEDING_REQUEST && resultCode == RESULT_OK){
+//            double bloodSugar = Objects.requireNonNull(data).getDoubleExtra(AddEditFeedingActivity.EXTRA_BLOOD_SUGAR, 0);
+//            String description = data.getStringExtra(AddEditFeedingActivity.EXTRA_DESCRIPTION);
+//            int carbs = data.getIntExtra(AddEditFeedingActivity.EXTRA_CARBS, 0);
+//
+//            Feeding feeding = new Feeding(bloodSugar, description, carbs);
+//            feedingViewModel.insert(feeding);
+//
+//            Toast.makeText(this, "Feeding saved", Toast.LENGTH_SHORT).show();
+//        } else if (requestCode == EDIT_FEEDING_REQUEST && resultCode == RESULT_OK){
+//            //default value set to -1 so that if an item is invalid, it will caught as the id auto generator never sets to -1
+//            int id = data.getIntExtra(AddEditFeedingActivity.EXTRA_ID, -1);
+//
+//            if(id == -1){ //Checks for invalid ID
+//                Toast.makeText(this, "Feeding cant be updated", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//
+//            double bloodSugar = data.getDoubleExtra(AddEditFeedingActivity.EXTRA_BLOOD_SUGAR, 0);
+//            String description = data.getStringExtra(AddEditFeedingActivity.EXTRA_DESCRIPTION);
+//            int carbs = data.getIntExtra(AddEditFeedingActivity.EXTRA_CARBS, 1);
+//            Feeding feeding = new Feeding(bloodSugar, description, carbs);
+//            feeding.setId(id);
+//            feedingViewModel.update(feeding);
+//            Toast.makeText(this, "Feeding Edited", Toast.LENGTH_SHORT).show();
+//        } else {
+//            Toast.makeText(this, "Feeding not saved", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     //menu option for delete all
     @Override

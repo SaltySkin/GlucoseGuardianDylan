@@ -26,6 +26,7 @@ import java.util.concurrent.Executor;
 public class PetActivity extends AppCompatActivity {
     private FeedingViewModel feedingViewModel;
     private PetViewModel petViewModel;
+    int ptHlth = 50;
 
     //Used in startActivityForResult class to id requests
     public static final int ADD_FEEDING_REQUEST = 1;
@@ -36,14 +37,16 @@ public class PetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pet);
         ProgressBar healthBar = findViewById(R.id.health_bar);
         ProgressBar hungerBar = findViewById(R.id.hunger_bar);
+        feedingViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(FeedingViewModel.class);
+        petViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(PetViewModel.class);
 
         setTitle("Pet View");
 
-        int ptHlth = AppDatabase.getInstance(getApplicationContext()).petDao().getPetOG(1).getHealth();
-        int petHunger = AppDatabase.getInstance(getApplicationContext()).petDao().getPetOG(1).getHunger();
+        ptHlth = petViewModel.getPetOG().getHealth();
+        int petHunger = petViewModel.getPetOG().getHunger();
         healthBar.setProgress(ptHlth, true);
-        updateHungerBar();
-        hungerBar.setProgress(petHunger);
+        //updateHungerBar();
+        //hungerBar.setProgress(petHunger);
 
 
         //String formattedDate = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(currentFeeding.getDate());
@@ -76,15 +79,14 @@ public class PetActivity extends AppCompatActivity {
 //                petViewModel.update(updatedPet);
 //            }
 //        };
-        feedingViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(FeedingViewModel.class);
-        petViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(PetViewModel.class);
+
 
 
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onResume() {
+        super.onResume();
         updateHungerBar();
         Toast.makeText(this, "Hunger bar updated", Toast.LENGTH_SHORT).show();
 
@@ -105,7 +107,12 @@ public class PetActivity extends AppCompatActivity {
             Toast.makeText(this, "Feeding saved", Toast.LENGTH_SHORT).show();
 
             int petHealth = petViewModel.calculateHealth(bloodSugar);
+            if (petHealth <= 5){
+                Toast.makeText(this, "You lost too much health, your pet passed out and health in now 20, take care of you blood sugar keep him healthy",  Toast.LENGTH_LONG).show();
+            }
+
             updateHealthBar(petHealth);
+
 
         } else {
             Toast.makeText(this, "Feeding not saved", Toast.LENGTH_SHORT).show();
@@ -119,19 +126,9 @@ public class PetActivity extends AppCompatActivity {
 
     public void updateHungerBar() {
         ProgressBar hungerBar = findViewById(R.id.hunger_bar);
-        int petHunger = AppDatabase.getInstance(getApplicationContext()).petDao().getPetOG(1).getHunger();
-
-        Long latestFeedingMilsec = AppDatabase.getInstance(getApplicationContext()).feedingDao().getLatestFeeding().getDate();
-        Long currentDateMilsec = System.currentTimeMillis();
-        Long differenceDateMil = currentDateMilsec - latestFeedingMilsec;
-        Long differenceDateMin = differenceDateMil/60000L;
-
-
-        while (differenceDateMin > 1){
-            petHunger = petHunger - 10;
-            differenceDateMin =- 1L;
-        }
-        AppDatabase.getInstance(getApplicationContext()).petDao().getPetOG(1).setHunger(petHunger);
+        Long lastFeeding = feedingViewModel.getLatestFeeding().getDate();
+        //AppDatabase.getInstance(getApplicationContext()).petDao().getPetOG(1).setHunger(petHunger);
+        int petHunger = petViewModel.calculateHunger(lastFeeding);
         hungerBar.setProgress(petHunger, true);
 
     }

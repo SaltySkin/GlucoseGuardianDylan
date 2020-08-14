@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Feeding.class, Pet.class}, version = 2)
+@Database(entities = {Feeding.class, Pet.class}, version = 3)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -56,7 +56,7 @@ public abstract class AppDatabase extends RoomDatabase {
             feedingDao.insert(new Feeding(5, "Pizza and Chips", 70));
             feedingDao.insert(new Feeding(10, "Sushi", 56));
             feedingDao.insert(new Feeding(5.2, "Smoked Salmon Bagel", 42));
-            petDao.insert(new Pet(1L,"Vampy", 90, 50));
+            petDao.insert(new Pet(1,"Vampy", 90, 50));
         }
     }
 }

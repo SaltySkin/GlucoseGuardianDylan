@@ -9,23 +9,24 @@ import java.util.Calendar;
 public class Pet {
 
     @PrimaryKey()
-    private Long id;
+    private int id;
     private String name;
     private int health;
     private int hunger;
+    private Long lastAccessedApp;
 
-    public Pet(Long id, String name, int health, int hunger) {
+    public Pet(int id, String name, int health, int hunger) {
         this.id = id;
         this.name = name;
         this.health = health;
         this.hunger = hunger;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -51,6 +52,13 @@ public class Pet {
 
     public void setHunger(int hunger) {
         this.hunger = hunger;
+    }
+
+    public void setLastAccessedApp(Long lastAccessedApp){
+        this.lastAccessedApp = lastAccessedApp;
+    }
+    public Long getLastAccessedApp(){
+        return lastAccessedApp;
     }
 
 }

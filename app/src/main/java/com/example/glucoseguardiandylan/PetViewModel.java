@@ -52,6 +52,8 @@ public class PetViewModel extends AndroidViewModel {
     public int calculateHealth(double bloodSugar){
 
         int petHealth = repository.getPetOG().getHealth();
+        Pet userPet = repository.getPetOG();
+
         if(bloodSugar <= 10 && bloodSugar >= 4) {
             if (petHealth >= 90) {
                 petHealth = 100;
@@ -60,12 +62,32 @@ public class PetViewModel extends AndroidViewModel {
             }
         } else if(bloodSugar > 10 || bloodSugar < 4){
             petHealth = petHealth - 10;
+            if(petHealth <= 0){
+                petHealth = 5;
+            }
         }
-        Pet userPet = repository.getPetOG();
 
         userPet.setHealth(petHealth);
         repository.update(userPet);
         return petHealth;
+    }
+
+    public int calculateHunger(Long lastFeeding){
+        int petHunger = getPetOG().getHunger();
+        Pet userPet = repository.getPetOG();
+
+        Long currentDateMilsec = System.currentTimeMillis();
+        Long differenceDateMil = currentDateMilsec - lastFeeding;
+        Long differenceDateMin = differenceDateMil/60000L;
+
+        while (differenceDateMin > 30){
+            petHunger = petHunger - 10;
+            differenceDateMin =- 1L;
+        }
+
+        userPet.setHunger(petHunger);
+        update(userPet);
+        return petHunger;
     }
 
 

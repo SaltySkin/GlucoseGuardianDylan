@@ -25,7 +25,7 @@ public class PetRepository {
         petDao = database.petDao();
         allPets = petDao.getAllPets();
         //getPet = petDao.getPet(0);
-        pet = petDao.getPetOG(0);
+        pet = petDao.getPetOG(1);
     }
         //Database Operation Methods (API that repository shows to the outside)
     public void insert(Pet pet) {
