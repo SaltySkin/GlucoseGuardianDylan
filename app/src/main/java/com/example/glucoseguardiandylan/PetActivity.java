@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -35,8 +36,13 @@ public class PetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet);
+//        ImageView imgHigh = findViewById(R.id.petImageHigh);
+//        ImageView imgMed = findViewById(R.id.petImageLow);
+
+
         feedingViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(FeedingViewModel.class);
         petViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(PetViewModel.class);
+        setImageVisiblity();
         updateHealthBar(petViewModel.getPetOG().getHealth());
         setTitle("Pet View");
 
@@ -106,10 +112,14 @@ public class PetActivity extends AppCompatActivity {
                 Toast.makeText(this, "Take care of your Pet, & your blood sugar to keep him healthy",  Toast.LENGTH_LONG).show();
             }
 
-              updateHealthBar(petHealth);
-//            Pet pet = petViewModel.getPetOG();
-//            pet.setHunger(pet.getHunger() + 30);
-//            petViewModel.update(pet);
+            setImageVisiblity();
+
+            updateHealthBar(petHealth);
+            Pet pet = petViewModel.getPetOG();
+            pet.setHunger(pet.getHunger() + 30);
+            petViewModel.update(pet);
+
+
 
 
         } else {
@@ -117,6 +127,19 @@ public class PetActivity extends AppCompatActivity {
         }
     }
 
+    public void setImageVisiblity(){
+        ImageView imgHigh = findViewById(R.id.petImageHigh);
+        ImageView imgMed = findViewById(R.id.petImageLow);
+
+        if(petViewModel.isHigh()){
+            imgHigh.setVisibility(View.VISIBLE);
+            imgMed.setVisibility(View.INVISIBLE);
+        } else if(petViewModel.isLow()){
+            imgMed.setImageResource(R.drawable.med_vampire);
+            imgMed.setVisibility(View.VISIBLE);
+            imgHigh.setVisibility(View.INVISIBLE);
+        }
+    }
     public void updateHealthBar(int health) {
         ProgressBar healthBar = findViewById(R.id.health_bar);
         healthBar.setProgress(health, true);
@@ -125,7 +148,7 @@ public class PetActivity extends AppCompatActivity {
     public void updateHungerBar() {
         ProgressBar hungerBar = findViewById(R.id.hunger_bar);
         int petHunger = petViewModel.calculateHunger();
-        hungerBar.setProgress(petHunger, true);
+        hungerBar.setProgress(petHunger);
 
     }
 

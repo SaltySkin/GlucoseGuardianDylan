@@ -92,6 +92,13 @@ public class PetViewModel extends AndroidViewModel {
         return petHunger;
     }
 
+    public boolean isHigh(){
+      return getPetOG().getHealth() >= 50;
+    }
+
+    public boolean isLow(){
+        return getPetOG().getHealth() < 50;
+    }
 
     public Pet getPetOG(){
         return repository.getPetOG();
