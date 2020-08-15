@@ -64,7 +64,6 @@
         android:layout_height="24dp"
         android:layout_marginBottom="32dp"
         android:max="100"
-        android:progress="50"
         android:progressTint="@color/colorAccent"
         android:scaleY="4"
         app:layout_constraintBottom_toTopOf="@+id/petImageView"

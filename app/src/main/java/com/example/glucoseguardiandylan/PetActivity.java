@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Database;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +27,6 @@ import java.util.concurrent.Executor;
 public class PetActivity extends AppCompatActivity {
     private FeedingViewModel feedingViewModel;
     private PetViewModel petViewModel;
-    int ptHlth = 50;
 
     //Used in startActivityForResult class to id requests
     public static final int ADD_FEEDING_REQUEST = 1;
@@ -35,19 +35,16 @@ public class PetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet);
-        ProgressBar healthBar = findViewById(R.id.health_bar);
         feedingViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(FeedingViewModel.class);
         petViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(PetViewModel.class);
+        updateHealthBar(petViewModel.getPetOG().getHealth());
         setTitle("Pet View");
 
 
         //updateHungerBar();
         //hungerBar.setProgress(petHunger);
 
-
         //String formattedDate = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(currentFeeding.getDate());
-
-
         //feedingViewModel.getLatestDate();
 
         Button buttonAddFeeding = findViewById(R.id.button_add_feeding_pet);
@@ -103,11 +100,16 @@ public class PetActivity extends AppCompatActivity {
             Toast.makeText(this, "Feeding saved", Toast.LENGTH_SHORT).show();
 
             int petHealth = petViewModel.calculateHealth(bloodSugar);
+
             if (petHealth <= 5){
-                Toast.makeText(this, "You lost too much health, your pet passed out and health in now 20, take care of you blood sugar keep him healthy",  Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "You lost too much health, your pet passed out and health in now 5, take care of you blood sugar keep him healthy",  Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Take care of your Pet, & your blood sugar to keep him healthy",  Toast.LENGTH_LONG).show();
             }
 
-            updateHealthBar(petHealth);
+              updateHealthBar(petHealth);
+//            Pet pet = petViewModel.getPetOG();
+//            pet.setHunger(pet.getHunger() + 30);
+//            petViewModel.update(pet);
 
 
         } else {
