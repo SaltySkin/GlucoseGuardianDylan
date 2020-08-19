@@ -49,11 +49,11 @@ public class AddEditFeedingActivity extends AppCompatActivity {
         numberPickerCarbs.setMinValue(0);
         numberPickerCarbs.setMaxValue(250);
 
-        radioGroup = (RadioGroup) findViewById(R.id.radio_group_meal);
+        //radioGroup = (RadioGroup) findViewById(R.id.radio_group_meal);
         radioBeforeMeal = (RadioButton) findViewById(R.id.radio_before_meal);
         radioAfterMeal = (RadioButton) findViewById(R.id.radio_after_meal);
         radioNoMeal = (RadioButton) findViewById(R.id.radio_no_meal);
-        radioGroup.clearCheck();
+//        radioGroup.clearCheck();
 
         //Displays icon instead of text when actionbar buttons are compressed (The save icon)
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_close_24);

@@ -52,49 +52,46 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <RadioGroup
-        android:id="@+id/radio_group_meal"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginBottom="72dp"
-        android:orientation="vertical"
+
+    <RadioButton
+        android:id="@+id/radio_before_meal"
+        android:layout_width="123dp"
+        android:layout_height="34dp"
+        android:onClick="onRadioButtonClicked"
+        android:text="Before Meal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="0.017"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.55" />
 
-        <RadioButton
-            android:id="@+id/radio_no_meal"
-            android:layout_width="135dp"
-            android:layout_height="46dp"
-            android:layout_marginStart="148dp"
-            android:layout_marginTop="130dp"
-            android:baselineAligned="false"
-            android:onClick="onRadioButtonClicked"
-            android:text="No Meal"
-            app:layout_constraintStart_toStartOf="@id/radio_after_meal" />
+    <RadioButton
+        android:id="@+id/radio_no_meal"
+        android:layout_width="137dp"
+        android:layout_height="34dp"
+        android:baselineAligned="false"
+        android:onClick="onRadioButtonClicked"
+        android:text="No Meal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.978"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.55" />
 
-        <RadioButton
-            android:id="@+id/radio_before_meal"
-            android:layout_width="135dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="148dp"
-            android:layout_marginBottom="20dp"
-            android:onClick="onRadioButtonClicked"
-            android:text="Before Meal"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <RadioButton
-            android:id="@+id/radio_after_meal"
-            android:layout_width="138dp"
-            android:layout_height="42dp"
-            android:layout_marginStart="148dp"
-            android:layout_marginBottom="180dp"
-            android:onClick="onRadioButtonClicked"
-            android:text="After Meal"
-            app:layout_constraintStart_toStartOf="@id/radio_before_meal" />
-
-    </RadioGroup>
+    <RadioButton
+        android:id="@+id/radio_after_meal"
+        android:layout_width="126dp"
+        android:layout_height="34dp"
+        android:onClick="onRadioButtonClicked"
+        android:text="After Meal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.55" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

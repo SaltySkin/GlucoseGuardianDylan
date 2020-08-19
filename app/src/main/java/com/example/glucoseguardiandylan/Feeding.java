@@ -21,6 +21,7 @@ public class Feeding {
         this.bloodSugar = bloodSugar;
         this.foodInfo = foodInfo;
         this.carbs = carbs;
+        this.mealInfo =mealInfo;
         this.date = Calendar.getInstance().getTimeInMillis(); //gets time/date at time on object initialisation
     }
 
