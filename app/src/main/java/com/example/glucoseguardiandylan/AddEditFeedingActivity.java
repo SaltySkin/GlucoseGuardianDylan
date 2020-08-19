@@ -19,15 +19,14 @@ public class AddEditFeedingActivity extends AppCompatActivity {
     //Intent extra content that is used to hold the user input and pass it back to the pet activity, to be processed in the on result method.
     public static final String EXTRA_ID = "com.example.glucoseguardiandylan.EXTRA_ID";
     public static final String EXTRA_BLOOD_SUGAR = "com.example.glucoseguardiandylan.EXTRA_BLOOD_SUGAR";
+    public static final String EXTRA_INSULIN = "com.example.glucoseguardiandylan.EXTRA_INSULIN";
     public static final String EXTRA_FOOD_INFO = "com.example.glucoseguardiandylan.EXTRA_FOOD_INFO";
     public static final String EXTRA_CARBS = "com.example.glucoseguardiandylan.EXTRA_CARBS";
     public static final String EXTRA_MEAL_INFO = "com.example.glucoseguardiandylan.EXTRA_MEAL_INFO";
 
-
-
-
     private EditText editTextBloodSugar;
     private EditText editTextFoodInfo;
+    private EditText editTextInsulin;
     private NumberPicker numberPickerCarbs;
     private RadioGroup radioGroup;
     private RadioButton radioBeforeMeal;
@@ -44,6 +43,7 @@ public class AddEditFeedingActivity extends AppCompatActivity {
 
         editTextBloodSugar = findViewById(R.id.edit_text_blood_sugar);
         editTextFoodInfo = findViewById(R.id.edit_text_food_info);
+        editTextInsulin = findViewById(R.id.edit_text_insulin);
 
         numberPickerCarbs = findViewById(R.id.number_picker_carbs);
         numberPickerCarbs.setMinValue(0);
@@ -53,9 +53,9 @@ public class AddEditFeedingActivity extends AppCompatActivity {
         radioBeforeMeal = (RadioButton) findViewById(R.id.radio_before_meal);
         radioAfterMeal = (RadioButton) findViewById(R.id.radio_after_meal);
         radioNoMeal = (RadioButton) findViewById(R.id.radio_no_meal);
-//        radioGroup.clearCheck();
+//      radioGroup.clearCheck();
 
-        //Displays icon instead of text when actionbar buttons are compressed (The save icon)
+        //Closes the activity, returns to main activity
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_close_24);
 
 
@@ -65,6 +65,7 @@ public class AddEditFeedingActivity extends AppCompatActivity {
             setTitle("Edit Feeding");
             //primitive int isn't allowed to be null, default value must also be passed
             editTextBloodSugar.setText(String.valueOf(intent.getDoubleExtra(EXTRA_BLOOD_SUGAR,0)));
+            editTextInsulin.setText(String.valueOf(intent.getDoubleExtra(EXTRA_INSULIN,0)));
             editTextFoodInfo.setText(intent.getStringExtra(EXTRA_FOOD_INFO));
             numberPickerCarbs.setValue(intent.getIntExtra(EXTRA_CARBS, 0));
         } else {
@@ -74,22 +75,27 @@ public class AddEditFeedingActivity extends AppCompatActivity {
     }
 
     private void saveFeeding() {
+
         String bloodSugarString = editTextBloodSugar.getText().toString();
-        //check if the field is empty, done as a string before being converted to a double
+
+        //check if the field is empty, lets user know blood sugar is required to submit feeding
         if(bloodSugarString.trim().isEmpty()) {
-            Toast.makeText(this, "Please enter your blood sugar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter your blood sugar to save feeding", Toast.LENGTH_SHORT).show();
             return;
         }
 
         //converts blood sugar string to double to be stored in database
         double bloodSugar = Double.parseDouble(bloodSugarString);
+        double insulin = Double.parseDouble(editTextInsulin.getText().toString());
         String foodInfo = editTextFoodInfo.getText().toString();
         int carbs = numberPickerCarbs.getValue();
 
         //creates new intent for the feeding information to pass it to the pet activity
         Intent feedingIntent = new Intent();
+
         //Gets the id from the intent, setting the default value as -1 as -1 will not be generated as an idea
         int id = getIntent().getIntExtra(EXTRA_ID, -1);
+
         //checks if the id already exists, as it would not be -1(the default value), if it adds the feedings id variable
         if(id != -1){
             feedingIntent.putExtra(EXTRA_ID, id);
@@ -97,6 +103,7 @@ public class AddEditFeedingActivity extends AppCompatActivity {
 
         //Adds the rest of the extras information to the intent object
         feedingIntent.putExtra(EXTRA_BLOOD_SUGAR, bloodSugar);
+        feedingIntent.putExtra(EXTRA_INSULIN, insulin);
         feedingIntent.putExtra(EXTRA_FOOD_INFO, foodInfo);
         feedingIntent.putExtra(EXTRA_CARBS, carbs);
         feedingIntent.putExtra(EXTRA_MEAL_INFO, mealInfo);
@@ -111,7 +118,7 @@ public class AddEditFeedingActivity extends AppCompatActivity {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
 
-        // Check which radio button was clicked
+        // Check which radio button was clicked, sets meal info in accordance to button
         switch(view.getId()) {
             case R.id.radio_before_meal:
                 if (checked)

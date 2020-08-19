@@ -11,17 +11,19 @@ public class Feeding {
     @PrimaryKey(autoGenerate = true) // Makes int id the primary key and incrementally auto generates a new id with each new feeding object
     private int id;
     private double bloodSugar; //stores blood sugar level
+    private double insulin; //insulin taken for the meal
     private String foodInfo; //food that/if eaten during this blood sugar check
     private int carbs; //amount of carbs eaten this blood sugar check
     private String mealInfo; //whether the user as eaten a meal or is about to in relation to this feeding
     private Long date; //date/time at the time of recorded reading
 
     //Constructor
-    public Feeding(double bloodSugar, String foodInfo, int carbs, String mealInfo) {
+    public Feeding(double bloodSugar, double insulin, String foodInfo, int carbs, String mealInfo) {
         this.bloodSugar = bloodSugar;
+        this.insulin = insulin;
         this.foodInfo = foodInfo;
         this.carbs = carbs;
-        this.mealInfo =mealInfo;
+        this.mealInfo = mealInfo;
         this.date = Calendar.getInstance().getTimeInMillis(); //gets time/date at time on object initialisation
     }
 
@@ -44,6 +46,14 @@ public class Feeding {
 
     public int getCarbs() {
         return carbs;
+    }
+
+    public double getInsulin() {
+        return insulin;
+    }
+
+    public void setInsulin(double insulin) {
+        this.insulin = insulin;
     }
 
     public String getMealInfo() {

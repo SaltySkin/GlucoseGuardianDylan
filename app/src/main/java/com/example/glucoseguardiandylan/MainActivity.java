@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 //Sending the data to the database
                 intent.putExtra(AddEditFeedingActivity.EXTRA_ID, feeding.getId());
                 intent.putExtra(AddEditFeedingActivity.EXTRA_BLOOD_SUGAR, feeding.getBloodSugar());
+                intent.putExtra(AddEditFeedingActivity.EXTRA_INSULIN, feeding.getInsulin());
                 intent.putExtra(AddEditFeedingActivity.EXTRA_FOOD_INFO, feeding.getFoodInfo());
                 intent.putExtra(AddEditFeedingActivity.EXTRA_CARBS, feeding.getCarbs());
                 intent.putExtra(AddEditFeedingActivity.EXTRA_MEAL_INFO, feeding.getMealInfo());

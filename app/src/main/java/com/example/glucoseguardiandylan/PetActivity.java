@@ -2,14 +2,8 @@ package com.example.glucoseguardiandylan;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.Transformations;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.room.Database;
 
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,12 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Executor;
 
 public class PetActivity extends AppCompatActivity {
     private FeedingViewModel feedingViewModel;
@@ -100,11 +89,12 @@ public class PetActivity extends AppCompatActivity {
         if (requestCode == ADD_FEEDING_REQUEST && resultCode == RESULT_OK) {
 
             double bloodSugar = Objects.requireNonNull(data).getDoubleExtra(AddEditFeedingActivity.EXTRA_BLOOD_SUGAR, 0);
+            double insulin = data.getDoubleExtra(AddEditFeedingActivity.EXTRA_INSULIN, 0);
             String foodInfo = data.getStringExtra(AddEditFeedingActivity.EXTRA_FOOD_INFO);
             int carbs = data.getIntExtra(AddEditFeedingActivity.EXTRA_CARBS, 0);
             String mealInfo = data.getStringExtra(AddEditFeedingActivity.EXTRA_MEAL_INFO);
 
-            Feeding feeding = new Feeding(bloodSugar, foodInfo, carbs, mealInfo);
+            Feeding feeding = new Feeding(bloodSugar, insulin, foodInfo, carbs, mealInfo);
             feedingViewModel.insert(feeding);
 
             int petHealth = petViewModel.calculateHealth(bloodSugar);

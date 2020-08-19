@@ -29,6 +29,7 @@ public class FeedingRecyclerAdapter extends RecyclerView.Adapter<FeedingRecycler
         String formattedDate = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(currentFeeding.getDate());
         holder.textViewBloodSugar.setText(String.valueOf(currentFeeding.getBloodSugar()));
         holder.textViewDescription.setText(currentFeeding.getFoodInfo());
+        holder.textViewInsulin.setText(String.valueOf(currentFeeding.getInsulin()));
         holder.textViewCarbs.setText(String.valueOf(currentFeeding.getCarbs()));
         holder.textViewMealInfo.setText(String.valueOf(currentFeeding.getMealInfo()));
         holder.textViewDate.setText(formattedDate);
@@ -50,6 +51,7 @@ public class FeedingRecyclerAdapter extends RecyclerView.Adapter<FeedingRecycler
 
     class FeedingHolder extends RecyclerView.ViewHolder {
         private TextView textViewBloodSugar;
+        private TextView textViewInsulin;
         private TextView textViewDescription;
         private TextView textViewCarbs;
         private TextView textViewMealInfo;
@@ -58,6 +60,7 @@ public class FeedingRecyclerAdapter extends RecyclerView.Adapter<FeedingRecycler
         public FeedingHolder(View itemView) {
             super(itemView);
             textViewBloodSugar = itemView.findViewById(R.id.text_view_blood_sugar);
+            textViewInsulin = itemView.findViewById(R.id.text_view_insulin);
             textViewDescription = itemView.findViewById(R.id.text_view_description);
             textViewCarbs = itemView.findViewById(R.id.text_view_carbs);
             textViewMealInfo = itemView.findViewById(R.id.text_view_meal_info);

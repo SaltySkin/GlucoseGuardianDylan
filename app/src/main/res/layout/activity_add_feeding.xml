@@ -11,10 +11,11 @@
         android:id="@+id/edit_text_blood_sugar"
         android:layout_width="362dp"
         android:layout_height="38dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:hint="Blood Sugar"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.53"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,13 +23,25 @@
         android:id="@+id/edit_text_food_info"
         android:layout_width="363dp"
         android:layout_height="49dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         android:hint="Food and Drinks"
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintHorizontal_bias="0.541"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_blood_sugar" />
+
+    <EditText
+        android:id="@+id/edit_text_insulin"
+        android:layout_width="362dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="124dp"
+        android:hint="Insulin"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView"

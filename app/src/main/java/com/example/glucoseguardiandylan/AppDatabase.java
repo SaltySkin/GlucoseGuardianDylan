@@ -61,9 +61,9 @@ public abstract class AppDatabase extends RoomDatabase {
 
         @Override
         public void run() {
-            feedingDao.insert(new Feeding(5, "Pizza and Chips", 70, "Before Meal"));
-            feedingDao.insert(new Feeding(10, "Sushi", 56, "After Meal"));
-            feedingDao.insert(new Feeding(5.2, "Smoked Salmon Bagel", 42, "No Meal"));
+            feedingDao.insert(new Feeding(5, 4, "Pizza and Chips", 70, "Before Meal"));
+            feedingDao.insert(new Feeding(10, 10, "Sushi", 56, "After Meal"));
+            feedingDao.insert(new Feeding(5.2, 2, "Smoked Salmon Bagel", 42, "Before Meal"));
             petDao.insert(new Pet(1,"Vampy", 90, 50, currentDate));
 
         }
