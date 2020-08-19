@@ -77,6 +77,8 @@ public class AddEditFeedingActivity extends AppCompatActivity {
     private void saveFeeding() {
 
         String bloodSugarString = editTextBloodSugar.getText().toString();
+        String insulinString;
+        insulinString = editTextInsulin.getText().toString();
 
         //check if the field is empty, lets user know blood sugar is required to submit feeding
         if(bloodSugarString.trim().isEmpty()) {
@@ -86,7 +88,14 @@ public class AddEditFeedingActivity extends AppCompatActivity {
 
         //converts blood sugar string to double to be stored in database
         double bloodSugar = Double.parseDouble(bloodSugarString);
-        double insulin = Double.parseDouble(editTextInsulin.getText().toString());
+        double insulin;
+
+        try {
+            insulin = Double.parseDouble(insulinString);
+        } catch (Exception e){
+            insulin = 0;
+        }
+
         String foodInfo = editTextFoodInfo.getText().toString();
         int carbs = numberPickerCarbs.getValue();
 
