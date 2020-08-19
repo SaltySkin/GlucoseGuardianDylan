@@ -1,6 +1,5 @@
 package com.example.glucoseguardiandylan;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,10 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.List;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private FeedingViewModel feedingViewModel;
@@ -67,8 +63,9 @@ public class MainActivity extends AppCompatActivity {
                 //Sending the data to the database
                 intent.putExtra(AddEditFeedingActivity.EXTRA_ID, feeding.getId());
                 intent.putExtra(AddEditFeedingActivity.EXTRA_BLOOD_SUGAR, feeding.getBloodSugar());
-                intent.putExtra(AddEditFeedingActivity.EXTRA_DESCRIPTION, feeding.getDescription());
+                intent.putExtra(AddEditFeedingActivity.EXTRA_FOOD_INFO, feeding.getFoodInfo());
                 intent.putExtra(AddEditFeedingActivity.EXTRA_CARBS, feeding.getCarbs());
+                intent.putExtra(AddEditFeedingActivity.EXTRA_MEAL_INFO, feeding.getMealInfo());
                 startActivityForResult(intent, EDIT_FEEDING_REQUEST); //Pass the intent and the request code
             }
         });

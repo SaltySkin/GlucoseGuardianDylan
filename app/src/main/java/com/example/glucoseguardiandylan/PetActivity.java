@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
@@ -28,6 +29,8 @@ import java.util.concurrent.Executor;
 public class PetActivity extends AppCompatActivity {
     private FeedingViewModel feedingViewModel;
     private PetViewModel petViewModel;
+    private TextView petName;
+    private TextView petLevel;
 
     //Used in startActivityForResult class to id requests
     public static final int ADD_FEEDING_REQUEST = 1;
@@ -39,12 +42,14 @@ public class PetActivity extends AppCompatActivity {
 //        ImageView imgHigh = findViewById(R.id.petImageHigh);
 //        ImageView imgMed = findViewById(R.id.petImageLow);
 
-
         feedingViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(FeedingViewModel.class);
         petViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(PetViewModel.class);
-        setImageVisiblity();
+        petName = findViewById(R.id.petName);
+        petName.setText(petViewModel.getPetOG().getName());
         updateHealthBar(petViewModel.getPetOG().getHealth());
-        setTitle("Pet View");
+        setImageVisiblity();
+        updateExperienceBar();
+        setTitle("Your Pet");
 
 
         //updateHungerBar();
@@ -79,15 +84,13 @@ public class PetActivity extends AppCompatActivity {
 //            }
 //        };
 
-
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         updateHungerBar();
-        Toast.makeText(this, "Hunger bar updated", Toast.LENGTH_SHORT).show();
+
 
     }
 
@@ -97,18 +100,17 @@ public class PetActivity extends AppCompatActivity {
         if (requestCode == ADD_FEEDING_REQUEST && resultCode == RESULT_OK) {
 
             double bloodSugar = Objects.requireNonNull(data).getDoubleExtra(AddEditFeedingActivity.EXTRA_BLOOD_SUGAR, 0);
-            String description = data.getStringExtra(AddEditFeedingActivity.EXTRA_DESCRIPTION);
+            String foodInfo = data.getStringExtra(AddEditFeedingActivity.EXTRA_FOOD_INFO);
             int carbs = data.getIntExtra(AddEditFeedingActivity.EXTRA_CARBS, 0);
+            String mealInfo = data.getStringExtra(AddEditFeedingActivity.EXTRA_MEAL_INFO);
 
-            Feeding feeding = new Feeding(bloodSugar, description, carbs);
+            Feeding feeding = new Feeding(bloodSugar, foodInfo, carbs, mealInfo);
             feedingViewModel.insert(feeding);
-
-            Toast.makeText(this, "Feeding saved", Toast.LENGTH_SHORT).show();
 
             int petHealth = petViewModel.calculateHealth(bloodSugar);
 
-            if (petHealth <= 5){
-                Toast.makeText(this, "You lost too much health, your pet passed out and health in now 5, take care of you blood sugar keep him healthy",  Toast.LENGTH_LONG).show();
+            if (petHealth == 0){
+                Toast.makeText(this, "You lost too much health, your pet went down a level, feed him to increase his health",  Toast.LENGTH_LONG).show();
                 Toast.makeText(this, "Take care of your Pet, & your blood sugar to keep him healthy",  Toast.LENGTH_LONG).show();
             }
 
@@ -119,6 +121,10 @@ public class PetActivity extends AppCompatActivity {
             pet.setHunger(pet.getHunger() + 30);
             petViewModel.update(pet);
 
+            int expIncrease = petViewModel.calculateExperienceLevel(bloodSugar);
+            updateExperienceBar();
+
+            Toast.makeText(this, "Your Pet has went up " + expIncrease + " Experience Points", Toast.LENGTH_LONG).show();
 
 
 
@@ -147,9 +153,24 @@ public class PetActivity extends AppCompatActivity {
 
     public void updateHungerBar() {
         ProgressBar hungerBar = findViewById(R.id.hunger_bar);
+        ProgressBar healthBar = findViewById(R.id.health_bar);
+
+
         int petHunger = petViewModel.calculateHunger();
+        int petHealth = petViewModel.getPetHealth();
+
+        healthBar.setProgress(petHealth);
         hungerBar.setProgress(petHunger);
 
+    }
+
+    public void updateExperienceBar(){
+        ProgressBar expBar = findViewById(R.id.experience_bar);
+        petLevel = findViewById(R.id.pet_level);
+        int experiencePoints = petViewModel.getPetOG().getExperiencePoints();
+        int level = petViewModel.getPetOG().getLevel();
+        petLevel.setText(String.valueOf(level));
+        expBar.setProgress(experiencePoints);
     }
 
 //    public void calculateHealth(double bloodSugar){

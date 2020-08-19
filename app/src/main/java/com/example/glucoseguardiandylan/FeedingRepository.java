@@ -1,17 +1,15 @@
 package com.example.glucoseguardiandylan;
 
 import android.app.Application;
-
 import androidx.lifecycle.LiveData;
-
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
+//repository used to call dao crud/ other method queries and run the on the background thread
 public class FeedingRepository {
     private FeedingDao feedingDao;
     private LiveData<List<Feeding>> allFeedings;
-    ExecutorService executorService;
 
+    //constructor
     public FeedingRepository(Application application){
         AppDatabase database = AppDatabase.getInstance(application);
         feedingDao = database.feedingDao();
@@ -42,6 +40,7 @@ public class FeedingRepository {
         return feedingDao.getLatestFeeding();
     }
 
+    //Runnables to pass to the Executor Service to run them on the background threads
     private static class InsertExecutor implements Runnable{
 
         private FeedingDao feedingDao;

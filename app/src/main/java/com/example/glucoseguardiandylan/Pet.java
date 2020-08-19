@@ -4,7 +4,6 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import java.util.Calendar;
 
 @Entity(tableName = "pet_table")
 public class Pet {
@@ -14,6 +13,8 @@ public class Pet {
     private String name;
     private int health;
     private int hunger;
+    private int level = 0;
+    private int experiencePoints = 0;
     private Long lastAccessedApp;
 
     @Ignore
@@ -64,9 +65,26 @@ public class Pet {
         this.hunger = hunger;
     }
 
+    public int getExperiencePoints() {
+        return experiencePoints;
+    }
+
+    public void setExperiencePoints(int experiencePoints) {
+        this.experiencePoints = experiencePoints;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     public void setLastAccessedApp(Long lastAccessedApp){
         this.lastAccessedApp = lastAccessedApp;
     }
+
     public Long getLastAccessedApp(){
         return lastAccessedApp;
     }

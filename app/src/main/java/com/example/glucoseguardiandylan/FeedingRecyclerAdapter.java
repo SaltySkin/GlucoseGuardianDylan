@@ -28,8 +28,9 @@ public class FeedingRecyclerAdapter extends RecyclerView.Adapter<FeedingRecycler
         Feeding currentFeeding = feedings.get(position); //reference to feeding data at this position in the array
         String formattedDate = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(currentFeeding.getDate());
         holder.textViewBloodSugar.setText(String.valueOf(currentFeeding.getBloodSugar()));
-        holder.textViewDescription.setText(currentFeeding.getDescription());
+        holder.textViewDescription.setText(currentFeeding.getFoodInfo());
         holder.textViewCarbs.setText(String.valueOf(currentFeeding.getCarbs()));
+        //holder.textViewMealInfo.setText(String.valueOf(currentFeeding.getMealInfo()));
         holder.textViewDate.setText(formattedDate);
     }
 
@@ -51,6 +52,7 @@ public class FeedingRecyclerAdapter extends RecyclerView.Adapter<FeedingRecycler
         private TextView textViewBloodSugar;
         private TextView textViewDescription;
         private TextView textViewCarbs;
+        private TextView textViewMealInfo;
         private TextView textViewDate;
 
         public FeedingHolder(View itemView) {
@@ -58,6 +60,7 @@ public class FeedingRecyclerAdapter extends RecyclerView.Adapter<FeedingRecycler
             textViewBloodSugar = itemView.findViewById(R.id.text_view_blood_sugar);
             textViewDescription = itemView.findViewById(R.id.text_view_description);
             textViewCarbs = itemView.findViewById(R.id.text_view_carbs);
+            //textViewMealInfo = itemView.findViewById(R.id.text_view_meal_info);
             textViewDate = itemView.findViewById(R.id.text_view_date);
 
             itemView.setOnClickListener(new View.OnClickListener() {

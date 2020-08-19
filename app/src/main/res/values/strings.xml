@@ -7,4 +7,6 @@
     <string name="pet_name">pet_name</string>
     <string name="feed">feed</string>
     <string name="pet_dscrpt">pet_dscrpt</string>
+    <string name="experience_bar">Experience Points</string>
+    <string name="pet_level_textview">Pet Level</string>
 </resources>
